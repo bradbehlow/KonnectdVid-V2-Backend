@@ -17,7 +17,7 @@ export const decryptUserToken = async (req, res) => {
     const ssoDecryptionKey = process.env.SSO_DECRYPTION_KEY;
 
     let decryptedData = CryptoJS.AES.decrypt(token, ssoDecryptionKey).toString(
-      CryptoJS.enc.Utf8
+      CryptoJS.enc.Utf8,
     );
 
     // console.log("decryptedData", decryptedData);
@@ -115,7 +115,7 @@ export const decryptUserToken = async (req, res) => {
                   Version: "2021-07-28",
                   Authorization: `Bearer ${Agency.accessToken}`,
                 },
-              }
+              },
             );
 
             const locationTokenData = locationTokenResponse.data;
@@ -124,7 +124,7 @@ export const decryptUserToken = async (req, res) => {
             // Calculate expiry date (current time + expires_in seconds)
             const expiryDate = new Date();
             expiryDate.setSeconds(
-              expiryDate.getSeconds() + locationTokenData.expires_in
+              expiryDate.getSeconds() + locationTokenData.expires_in,
             );
 
             // Create new user with location-specific token
@@ -633,7 +633,8 @@ export const generateTokenFromPayload = async (req, res) => {
     const token = generateToken(payload);
 
     // Get frontend URL from environment or use default
-    const frontendUrl = process.env.FRONTEND_URL || 'https://frontend-sooty-three.vercel.app';
+    const frontendUrl =
+      process.env.FRONTEND_URL || "https://konnectd-vid-v2-frontend.vercel.app";
 
     return res.status(200).json({
       message: "Token generated successfully",
