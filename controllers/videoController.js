@@ -892,29 +892,27 @@ export const updateCaptionContent = async (req, res) => {
       });
     }
 
-    // Determine caption key (use existing or create new)
-    let captionKey = video.captionKey;
-    
-    // If no existing caption, create new key
-    if (!captionKey) {
-      captionKey = `captions/${uuidv4()}.vtt`;
-    }
+    // New key on every save so CloudFront/browser never serve a stale .vtt at the same URL
+    const previousCaptionKey = video.captionKey;
+    const captionKey = `captions/${uuidv4()}.vtt`;
 
-    // Upload updated caption to S3
     const command = new PutObjectCommand({
       Bucket: process.env.AWS_S3_BUCKET_NAME,
       Key: captionKey,
       ContentType: "text/vtt",
       Body: captionContent,
-      CacheControl: "max-age=3600", // Cache for 1 hour
+      CacheControl: "max-age=3600",
     });
 
     await s3.send(command);
 
-    // Update video record
     video.captionKey = captionKey;
     video.hasCaption = true;
     await video.save();
+
+    if (previousCaptionKey && previousCaptionKey !== captionKey) {
+      await deleteFromS3(previousCaptionKey);
+    }
 
     return res.status(200).json({
       message: "Captions updated successfully",
