@@ -5,7 +5,7 @@ dotenv.config();
 export const initiate = async (req, res) => {
   const options = {
     requestType: "code",
-    redirectUri: "https://sendvid-backend.vercel.app/oauth/callback",
+    redirectUri: "https://konnectd-vid-v2-backend.vercel.app/oauth/callback",
     scopes: [
       "contacts.readonly",
       "conversations/message.write",
@@ -23,6 +23,6 @@ export const initiate = async (req, res) => {
       options.requestType
     }&redirect_uri=${options.redirectUri}&client_id=${
       process.env.GHL_CLIENT_ID
-    }&scope=${options.scopes.join(" ")}`
+    }&scope=${options.scopes.join(" ")}`,
   );
 };
