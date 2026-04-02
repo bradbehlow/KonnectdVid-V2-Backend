@@ -23,6 +23,6 @@ export const initiate = async (req, res) => {
       options.requestType
     }&redirect_uri=${options.redirectUri}&client_id=${
       process.env.GHL_CLIENT_ID
-    }&scope=${options.scopes.join(" ")}`,
+    }&scope=${options.scopes.join(" ")}`
   );
 };

@@ -107,7 +107,7 @@ export const sendSMSController = async (req, res) => {
             videoAttachmentUrl = `https://d27zhkbo74exx9.cloudfront.net/${gifKey}`;
             console.log(
               "📱 Sending GIF attachment (size > 3MB):",
-              videoAttachmentUrl
+              videoAttachmentUrl,
             );
           }
         } else {
@@ -119,7 +119,7 @@ export const sendSMSController = async (req, res) => {
           } else {
             try {
               console.log(
-                `Video size is ${video.size}MB (≤3MB), converting to MOV...`
+                `Video size is ${video.size}MB (≤3MB), converting to MOV...`,
               );
 
               const webmUrl = `https://d27zhkbo74exx9.cloudfront.net/${video.videoKey}`;
@@ -131,7 +131,7 @@ export const sendSMSController = async (req, res) => {
                   format: "mov",
                   folder: "converted_videos",
                   overwrite: true,
-                }
+                },
               );
 
               videoAttachmentUrl = cloudinaryResult.secure_url;
@@ -197,7 +197,7 @@ export const sendSMSController = async (req, res) => {
                   "Content-Type": "application/json",
                   Accept: "application/json",
                 },
-              }
+              },
             );
 
             const smsHistoryData = {
@@ -248,7 +248,7 @@ export const sendSMSController = async (req, res) => {
 
             console.error(
               `Failed to send SMS to ${contact.id}:`,
-              err.response?.data || err.message
+              err.response?.data || err.message,
             );
             return {
               contactId: contact.id,
@@ -258,7 +258,7 @@ export const sendSMSController = async (req, res) => {
                 : uploadedVideoName,
             };
           }
-        })
+        }),
       );
 
       results = results.concat(batchResults);
@@ -653,7 +653,7 @@ export const sendEmailController = async (req, res) => {
                   "Content-Type": "application/json",
                   Accept: "application/json",
                 },
-              }
+              },
             );
 
             const emailHistoryData = {
@@ -705,7 +705,7 @@ export const sendEmailController = async (req, res) => {
 
             console.error(
               `Failed to send email to ${contact.id}:`,
-              err.response?.data || err.message
+              err.response?.data || err.message,
             );
             return {
               contactId: contact.id,
@@ -715,7 +715,7 @@ export const sendEmailController = async (req, res) => {
                 : uploadedVideoName,
             };
           }
-        })
+        }),
       );
 
       results = results.concat(batchResults);
